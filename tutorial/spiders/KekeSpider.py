@@ -11,7 +11,7 @@ from scrapy.linkextractors import LinkExtractor
 class KekeSpider(scrapy.spiders.Spider):
 
     print 'scrapy runspider KekeSpider.py'
-    name = 'kekenet2'
+    name = 'kekenet'
     allowed_domains = ['kekenet.com']
 
     start_urls = []
