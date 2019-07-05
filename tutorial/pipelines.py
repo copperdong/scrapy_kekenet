@@ -2,6 +2,9 @@
 import leancloud
 from leancloud import Object
 from leancloud import Query
+import datetime
+from scrapy.xlib.pydispatch import dispatcher
+from scrapy import signals
 from tutorial.items import TutorialItem
 # Define your item pipelines here
 #
@@ -16,6 +19,8 @@ class TutorialPipeline(object):
         global itemId
         leancloud.init('3fg5ql3r45i3apx2is4j9on5q5rf6kapxce51t5bc0ffw2y4', 'twhlgs6nvdt7z7sfaw76ujbmaw7l12gb8v6sdyjw1nzk9b1a')
         itemId = get_lastest_item_id()
+        dispatcher.connect(self.spider_opened, signals.spider_opened)
+        dispatcher.connect(self.spider_closed, signals.spider_closed)
         print '-----init-----leancloud.init------itemId:%d' % itemId
 
     def process_item(self, item, spider):
@@ -25,19 +30,13 @@ class TutorialPipeline(object):
             print 'already exit'
             return item
         else:
-            content = ''
-            contents = item['content']
-            for con in contents.splitlines():
-                content += con.strip()
-                content += '\n\n'
-
             itemId += 1
             Composition = Object.extend('Reading')
             mComposition = Composition()
             mComposition.set('item_id', itemId)
             mComposition.set('title', item['title'])
             mComposition.set('img_url', item['img_url'])
-            mComposition.set('content', content)
+            mComposition.set('content', item['content'])
             mComposition.set('type_name', item['type_name'])
             mComposition.set('publish_time', item['publish_time'])
             mComposition.set('type_id', item['type_id'])
@@ -46,12 +45,18 @@ class TutorialPipeline(object):
             mComposition.set('category', item['category'])
             mComposition.set('type', item['type'])
             mComposition.set('img_type', 'url')
+            mComposition.set('img_urls', item['img_urls'])
             mComposition.set('media_url', item['media_url'])
-            # mComposition.set('category_2', '')
+            mComposition.set('category_2', '')
             mComposition.save()
             print('save item')
             return item
 
+    def spider_opened(self, spider):
+        recordSpiderRunTime("kekespider start")
+
+    def spider_closed(self, spider):
+        recordSpiderRunTime("kekespider finish")
 
 def is_exit(str, category):
     query = Query('Reading')
@@ -69,3 +74,14 @@ def get_lastest_item_id():
         return 0
     else:
         return querys[0].get("item_id")
+
+def recordSpiderRunTime(str):
+    now = datetime.datetime.now()
+    ymd = now.strftime("%Y-%m-%d")
+    run_time = now.strftime('%Y-%m-%d %H:%M:%S') + "  " + str
+
+    SpiderRecord = Object.extend('SpiderRecord')
+    mSpiderRecord = SpiderRecord()
+    mSpiderRecord.set('ymd', ymd)
+    mSpiderRecord.set('run_time', run_time)
+    mSpiderRecord.save()

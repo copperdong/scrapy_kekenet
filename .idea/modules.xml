@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/PycharmProjects/OnlineFile/.idea/OnlineFile.iml" filepath="$USER_HOME$/PycharmProjects/OnlineFile/.idea/OnlineFile.iml" />
       <module fileurl="file://$USER_HOME$/PycharmProjects/Spider/.idea/Spider.iml" filepath="$USER_HOME$/PycharmProjects/Spider/.idea/Spider.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/TestNewThing/.idea/TestNewThing.iml" filepath="$USER_HOME$/PycharmProjects/TestNewThing/.idea/TestNewThing.iml" />
       <module fileurl="file://$USER_HOME$/PycharmProjects/dirbot/.idea/dirbot.iml" filepath="$USER_HOME$/PycharmProjects/dirbot/.idea/dirbot.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/talkOralpractice/.idea/talkOralpractice.iml" filepath="$USER_HOME$/PycharmProjects/talkOralpractice/.idea/talkOralpractice.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/tutorial.iml" filepath="$PROJECT_DIR$/.idea/tutorial.iml" />
     </modules>
   </component>
